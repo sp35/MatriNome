@@ -18,9 +18,11 @@ Well those are some *really big words* thrown randomly here and there so let's b
 > In the home page they see the profile of other users based on their **interest listed in the profile** and on the basis of **filters they apply**.
 > The profile of other users shown will be completely random and no algorithm is required but the prior conditions should be satisfied. Now if the user wants he can choose `smash` or `pass` and then the request is sent to the other user who can *accept* or <del>decline</del> their request.
 - Mails should be sent when it seems **neccessary**
-- All the work needs to be done in this repository and make a new branch where you will continue working.
+- **Fork** this repo in your github and then start working.
+- All the work needs to be done in **forked repository** and make a new branch where you will continue working.
 - `git clone` `git checkout` `git add` `git commit` `git push` `git remote` these lines will be very useful for you all.
-- **Work which is not reflected on your required branch won't be accepted.**
+- When satisfied with your work send one final `pull request` to the original repository which after being accepted means that you can't more to the project now.
+- **Work which is not reflected on your required branch after being pulled won't be accepted.**
 ## Key Takeaways ##
 - I have been very vague about the details because I want y'all natural input in this task. You are a developer and it's your duty to fullfill the client requirements.
 - Consider me as your client and then work on this project because it is not neccessary for the client to know the technical keywords which are required for this communication to take place.
