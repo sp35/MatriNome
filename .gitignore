@@ -5,5 +5,4 @@ myenv
 db.sqlite3
 /static
 /media
-/migrations
 .DS_Store

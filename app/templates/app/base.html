@@ -22,25 +22,33 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
+            {% if user.is_authenticated %}
             <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            {% endif %}
           </li>
           {% if user.is_authenticated %}
             <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' user.username %}">Profile</a>
           </li>
           {% endif %}
+          
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
+            {% if user.is_authenticated %}
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Options
             </a>
+            {% endif %}
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if user.is_authenticated %}
+              <a class="dropdown-item" href="{% url 'view_requests' %}">Requests Received</a>
+              <a class="dropdown-item" href="{% url 'view_matches' %}">Your Matches</a>
+            {% endif %}
+
               {% if user.is_authenticated %}
-                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
               {% endif %}
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+            </div>  
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">A website for matching two soulmates</a>

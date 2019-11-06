@@ -9,6 +9,19 @@
 			<img src="{{ profile.image.url }}" alt="Matched User Image" height="160" width="160">
 			<p>
 				<br>
+
+				{% if profile.user not in partners %}
+					{% if req_received|get_item:profile.user %}
+						<a href="{% url 'accept_match_request' profile.user.username %}">Accept Match Request from {{ profile.user.username }}</a>
+					{% else %}
+						<a href="{% url 'send_match_request' profile.user.username %}">Send Match Request to {{ profile.user.username }}</a>
+					{% endif %}
+					
+				{% elif profile.user in partners %}
+					<strong><em>Matched</em></strong>
+				{% endif %}
+				<br>
+				<br>
 				You and {{ profile.name }} are both interested in
 				<ul>
 					{% for interest in matched_interests %}

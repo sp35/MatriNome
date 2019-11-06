@@ -1,0 +1,11 @@
+{% extends "app/base.html" %}
+{% block content %}
+<h4>Your Matches</h4>
+<p>
+	<ul>
+	{% for partner in partners %}
+		<li><a href="{% url 'profile' partner.username %}">{{ partner.username }}</a></li>
+	{% endfor %}
+	</ul>
+</p>
+{% endblock %}
