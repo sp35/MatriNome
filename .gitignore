@@ -4,5 +4,6 @@ __pycache__
 myenv
 db.sqlite3
 /static
-/media
+/media/profile_pics/*
 .DS_Store
+sendgrid.env

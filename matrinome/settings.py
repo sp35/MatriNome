@@ -25,7 +25,7 @@ SECRET_KEY = 'l411b5o6#ijx3cms7n-w!w2r9k6&s48c*7&a02hehb9i!4cu+w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'app.apps.AppConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
-    'matching',
+    'matching.apps.MatchingConfig',
 ]
 
 MIDDLEWARE = [

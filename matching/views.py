@@ -47,6 +47,14 @@ def accept_match_request(request, username):
             messages.success(request, 'Successfully added')
     
     except:
+        Partner.objects.delete(
+                    current_user = request.user,                               
+                    its_partner = to_user,                                    
+                    )
+        Partner.objects.delete(
+                    current_user = to_user,                               
+                    its_partner = request.user,                                    
+                    )
         messages.warning(request, 'Error')
 
     return redirect('home')
@@ -57,7 +65,7 @@ def reject_match_request(request, username):
         to_user = get_object_or_404(User, username=username)
         RelationshipRequest.objects.filter(from_user=to_user,
                                                 to_user =request.user).delete()
-        messages.success(request, 'Rejected!')
+        messages.success(request, 'Declined!')
     
     except:
         messages.warning(request, 'Error')

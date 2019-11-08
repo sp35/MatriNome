@@ -25,6 +25,16 @@ def home(request):
     for partner_object in partner_objects:
         partners.append(partner_object.its_partner)
 
+    # setting context to none in case none of the profiles matched
+    if all( len(value) == 0 for value in context.values() ):
+        context = None
+
+    # sorting context by matched_interests
+    sorted_context = {}
+    for k in sorted(context, key=lambda k: len(context[k]), reverse=True):
+        sorted_context[k] = context[k]
+    context = sorted_context   
+
     return render(request, 'app/home.html', {'context': context, 'partners': partners, 'req_received': req_received})
 
 

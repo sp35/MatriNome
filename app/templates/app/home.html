@@ -1,34 +1,38 @@
 {% extends "app/base.html" %}
 {% block content %}
+	<br>
 	{% for profile, matched_interests in context.items %}
-		<br>
-		<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a> ------ {{ matched_interests|length}} interests matched</h4>
-		<br>
-		<div class="container">
-			<img src="{{ user.profile.image.url }}" alt="User Image" height="160" width="160">
-			<img src="{{ profile.image.url }}" alt="Matched User Image" height="160" width="160">
-			<p>
-				<br>
+		{% if matched_interests|length %}
+			<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a> ------ {{ matched_interests|length}} interests matched</h4>
+			<br>
+			<div class="container">
+				<img src="{{ user.profile.image.url }}" alt="User Image" height="160" width="160">
+				<img src="{{ profile.image.url }}" alt="Matched User Image" height="160" width="160">
+				<p>
+					<br>
 
-				{% if profile.user not in partners %}
-					{% if req_received|get_item:profile.user %}
-						<a href="{% url 'accept_match_request' profile.user.username %}">Accept Match Request from {{ profile.user.username }}</a>
-					{% else %}
-						<a href="{% url 'send_match_request' profile.user.username %}">Send Match Request to {{ profile.user.username }}</a>
+					{% if profile.user not in partners %}
+						{% if req_received|get_item:profile.user %}
+							<a href="{% url 'accept_match_request' profile.user.username %}">Accept Match Request from {{ profile.user.username }}</a>
+						{% else %}
+							<a href="{% url 'send_match_request' profile.user.username %}">Send Match Request to {{ profile.user.username }}</a>
+						{% endif %}
+						
+					{% elif profile.user in partners %}
+						<strong><em>Matched</em></strong>
 					{% endif %}
-					
-				{% elif profile.user in partners %}
-					<strong><em>Matched</em></strong>
-				{% endif %}
-				<br>
-				<br>
-				You and {{ profile.name }} are both interested in
-				<ul>
-					{% for interest in matched_interests %}
-						<li>{{ interest }}</li>
-					{% endfor %}
-				</ul>
-			</p>
-			</div>
+					<br>
+					<br>
+					You and {{ profile.name }} are both interested in
+					<ul>
+						{% for interest in matched_interests %}
+							<li>{{ interest }}</li>
+						{% endfor %}
+					</ul>
+				</p>
+				</div>
+			{% endif %}
+	{% empty %}
+		<h5>No profiles matched your interests :(</h5>
 	{% endfor %}
 {% endblock content %}
