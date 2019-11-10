@@ -1,9 +1,18 @@
 {% extends "app/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
+	<br>
+	<div>
+		<form action="{% url 'home' %}" method="post">
+	    	{% csrf_token %}
+	    	{{ form }}
+	    	<input class="btn btn-secondary btn-sm" type="submit" value="Apply">
+		</form>
+	</div>
 	<br>
 	{% for profile, matched_interests in context.items %}
 		{% if matched_interests|length %}
-			<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a> ------ {{ matched_interests|length}} interests matched</h4>
+			<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a> ------ {{ matched_interests|length}} common interests</h4>
 			<br>
 			<div class="container">
 				<img src="{{ user.profile.image.url }}" alt="User Image" height="160" width="160">
@@ -13,13 +22,13 @@
 
 					{% if profile.user not in partners %}
 						{% if req_received|get_item:profile.user %}
-							<a href="{% url 'accept_match_request' profile.user.username %}">Accept Match Request from {{ profile.user.username }}</a>
+							<a class="btn btn-outline-primary" href="{% url 'accept_match_request' profile.user.username %}">Accept Match Request from {{ profile.user.username }}</a>
 						{% else %}
-							<a href="{% url 'send_match_request' profile.user.username %}">Send Match Request to {{ profile.user.username }}</a>
+							<a class="btn btn-outline-success" href="{% url 'send_match_request' profile.user.username %}">Smash</a>
 						{% endif %}
 						
 					{% elif profile.user in partners %}
-						<strong><em>Matched</em></strong>
+					<strong class="btn btn-success"><em>Matched</em></strong>
 					{% endif %}
 					<br>
 					<br>
@@ -33,6 +42,6 @@
 				</div>
 			{% endif %}
 	{% empty %}
-		<h5>No profiles matched your interests :(</h5>
+		<h5>No profiles matched your interests/filters :(</h5>
 	{% endfor %}
 {% endblock content %}

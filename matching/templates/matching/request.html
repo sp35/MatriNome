@@ -1,14 +1,23 @@
 {% extends "app/base.html" %}
 {% block content %}
-	<div>{{ relationship_request.from_user }} wants to be matched with {{ relationship_request.to_user }}</div>
+	<br>
+	<div><a href="{% url 'profile' relationship_request.from_user.username %}">{{ relationship_request.from_user.username }}</a> wants to be matched with {{ relationship_request.to_user }}
+	<br><br>
+	<img src="{{ relationship_request.from_user.profile.image.url }}" alt="Image" height="200" width="200">
+	</div>
+	<br>
 
-	<form method="post" action="{% url 'accept_match_request' relationship_request.from_user.username %}">
-	{% csrf_token %}
-	<input type="submit" value="accept" />
-	</form>
+	<div class="form-group">
+		<form method="post" action="{% url 'accept_match_request' relationship_request.from_user.username %}">
+		{% csrf_token %}
+		<input class="btn btn-outline-success" type="submit" value="accept" />
+		</form>
+	</div>
 
-	<form method="post" action="{% url 'reject_match_request' relationship_request.from_user.username %}">
-	{% csrf_token %}
-	<input type="submit" value="reject" />
-	</form>
+	<div class="form-group">
+		<form method="post" action="{% url 'reject_match_request' relationship_request.from_user.username %}">
+		{% csrf_token %}
+		<input class="btn btn-outline-danger" type="submit" value="reject" />
+		</form>
+	</div>
 {% endblock %}

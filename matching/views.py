@@ -9,20 +9,25 @@ from .models import Partner, RelationshipRequest
 def send_match_request(request, username):
     try:
         to_user = get_object_or_404(User, username=username)
-        if Partner.objects.filter(current_user=request.user, its_partner=to_user).exists():
-            messages.success(request, 'You both are already matched')
-        elif RelationshipRequest.objects.filter(from_user=request.user,to_user =to_user).exists():
-            messages.warning(request, 'Request Already Sent!')
-        else:
-            RelationshipRequest.objects.create(
+    except:
+        messages.warning(request, 'Error')
+        return redirect('home')
+
+    if Partner.objects.filter(
+        current_user=request.user,
+        its_partner=to_user).exists():
+        messages.success(request, 'You both are already matched')
+    elif RelationshipRequest.objects.filter(
+        from_user=request.user,
+        to_user =to_user).exists():
+        messages.warning(request, 'Request Already Sent!')
+    else:
+        RelationshipRequest.objects.create(
                     from_user=request.user,                     # The sender
                     to_user =to_user,                           # The recipient
                     message='Hi! I would like to add you')      # This message is optional
-            messages.success(request, 'Match request sent!')
+        messages.success(request, 'Match request sent!')
         
-    except:
-        messages.warning(request, 'Error')
-
     return redirect('home')
 
 
@@ -30,32 +35,24 @@ def send_match_request(request, username):
 def accept_match_request(request, username):
     try:
         to_user = get_object_or_404(User, username=username)
-        if Partner.objects.filter(current_user=request.user, its_partner=to_user).exists():
-            messages.success(request, 'You both are already matched')
-        else:
-            Partner.objects.create(
-                    current_user = request.user,                               
-                    its_partner = to_user,                                    
-                    )
-            # creating a reverse relation
-            Partner.objects.create(
-                    current_user = to_user,                               
-                    its_partner = request.user,                                    
-                    )
-            RelationshipRequest.objects.filter(from_user=to_user,
-                                                to_user =request.user).delete()
-            messages.success(request, 'Successfully added')
-    
     except:
-        Partner.objects.delete(
+        messages.warning(request, 'Error')
+        return redirect('home')
+    if Partner.objects.filter(current_user=request.user, its_partner=to_user).exists():
+        messages.success(request, 'You both are already matched')
+    else:
+        Partner.objects.create(
                     current_user = request.user,                               
                     its_partner = to_user,                                    
                     )
-        Partner.objects.delete(
+        # creating a reverse relation
+        Partner.objects.create(
                     current_user = to_user,                               
                     its_partner = request.user,                                    
                     )
-        messages.warning(request, 'Error')
+        RelationshipRequest.objects.filter(from_user=to_user,
+                                                to_user =request.user).delete()
+        messages.success(request, 'Successfully added')
 
     return redirect('home')
 

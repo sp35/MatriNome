@@ -25,7 +25,7 @@ def create_profile(sender, instance, created, **kwargs):
 			print(response.body)
 			print(response.headers)	
 		except Exception as e:
-			print(e.message)
+			print(str(e))
 
 
 @receiver(post_save, sender=User)
