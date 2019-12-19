@@ -3,27 +3,10 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 class InterestChoice(models.Model):
-    INTEREST_CHOICES = (
-        ('A', 'travelling'),
-        ('B', 'exercise'),
-        ('C', 'going to the theater'),
-        ('D', 'dancing'),
-        ('E', 'cooking'),
-        ('F', 'doing stuff outdoors'),
-        ('G', 'politics'),
-        ('H', 'pets'),
-        ('I', 'photography'),
-        ('J', 'sports'),
-        ('K', 'art'),
-        ('L', 'learning'),
-        ('M', 'music'),
-        ('N', 'comedy'),
-        ('O', 'reading'),
-    )
-    interest = models.CharField(max_length=1, choices=INTEREST_CHOICES, null=True) 
+    interest = models.CharField(max_length=100, null=True) 
 
     def __str__(self):
-        return self.get_interest_display()
+        return self.interest
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

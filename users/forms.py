@@ -23,7 +23,6 @@ INTEREST_CHOICES = (
 
 class UserRegisterForm(UserCreationForm):
 	email = forms.EmailField()
-	
 	class Meta:
 		model = User
 		fields = ['username', 'email', 'password1', 'password2']
@@ -38,6 +37,12 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-	class Meta:
-		model = Profile
-		fields = ['name','image','dob', 'gender','interests']
+    class Meta:
+        model = Profile
+        fields = ['name','image','dob', 'gender','interests']
+        widgets = {
+            'interests': forms.widgets.CheckboxSelectMultiple
+        }
+
+class AddInterestForm(forms.Form):
+    add_interest = forms.CharField(label = 'Other Interests',max_length = 100 ,required = False) 
