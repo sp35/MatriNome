@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'app/style.css' %}" />
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<title>MatriNome</title>
+</head>
+<body>
+	<div class="jumbotron" id="jumbo">
+		<h1>MatriNome</h1>
+		<ul>
+			<li>
+				<h5>New here?</h5>
+				<a href="{% url 'register' %}" class='btn btn-primary btn-lg'>Register</a>
+			</li>
+			<li>
+				<h5>Already have an account?</h5>
+				<a href="{% url 'login' %}"  class='btn btn-primary btn-lg'>Login</a>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

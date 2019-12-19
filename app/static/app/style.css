@@ -1,0 +1,18 @@
+body {
+    background-image: url("images/yep");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+ul {
+  list-style-type: none;
+  color: white;
+}
+
+h1{
+	color: white;
+}
+
+#jumbo {
+   background: rgba(100, 54, 54, 0.5);
+}
