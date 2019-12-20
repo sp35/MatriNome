@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
 from users.models import Profile
 from matching.models import Partner, RelationshipRequest
-from app.forms import FilterForm
+from app.forms import FilterForm, SearchForm
 
 @login_required
 def home(request):
@@ -12,21 +12,32 @@ def home(request):
         partners.append(partner_object.its_partner)
 
     excluded_user_list = [request.user]
+    profiles = Profile.objects.exclude(user__in=excluded_user_list)
 
     if request.method == 'POST':
-        form = FilterForm(request.POST)
-        if form.is_valid():
-            gender_pref = form.cleaned_data['gender']
-            profiles = Profile.objects.filter(gender=gender_pref)
-            show_matched = form.cleaned_data['show_matched']
-            if show_matched == 'True':
-               profiles = profiles.filter(user__in=partners) 
-            else:
-                excluded_user_list += partners
-                profiles = profiles.exclude(user__in=excluded_user_list)
+        if 'btnformfilter' in request.POST: 
+            form = FilterForm(request.POST)
+            s_form = SearchForm()
+            if form.is_valid():
+                gender_pref = form.cleaned_data['gender']
+                profiles = Profile.objects.filter(gender=gender_pref)
+                show_matched = form.cleaned_data['show_matched']
+                if show_matched == 'True':
+                   profiles = profiles.filter(user__in=partners) 
+                else:
+                    excluded_user_list += partners
+                    profiles = profiles.exclude(user__in=excluded_user_list)
+
+        elif 'btnformsearch' in request.POST:
+            form = FilterForm()
+            s_form = SearchForm(request.POST)
+            if s_form.is_valid():
+                query = s_form.cleaned_data['query']
+                profiles = profiles.filter(name__icontains=query)
+
     else:
         form = FilterForm()
-        profiles = Profile.objects.exclude(user__in=excluded_user_list)
+        s_form = SearchForm()
     
     user_interests = request.user.profile.interests.all()
     context = {}
@@ -53,7 +64,7 @@ def home(request):
             sorted_context[k] = context[k]
         context = sorted_context   
 
-    return render(request, 'app/home.html', {'context': context, 'partners': partners, 'req_received': req_received, 'form': form})
+    return render(request, 'app/home.html', {'context': context, 'partners': partners, 'req_received': req_received, 'form': form, 's_form': s_form})
 
 
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable

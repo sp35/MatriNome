@@ -6,7 +6,7 @@
 		<form action="{% url 'home' %}" method="post">
 	    	{% csrf_token %}
 	    	{{ form }}
-	    	<input class="btn btn-secondary btn-sm" type="submit" value="Apply">
+	    	<button name='btnformfilter' class="btn btn-secondary btn-sm" type="submit">Apply</button>
 		</form>
 	</div>
 	<br>
