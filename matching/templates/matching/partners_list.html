@@ -5,7 +5,13 @@
 <p>
 	<ul>
 	{% for partner in partners %}
-		<li><a href="{% url 'profile' partner.username %}">{{ partner.username }}</a></li>
+		<form method="post" action="{% url 'delete_match' partner.username %}">
+			{% csrf_token %}
+			<li>
+				<a href="{% url 'profile' partner.username %}">{{ partner.username }}</a>
+				<input class="btn btn-outline-danger btn-sm" type="submit" value="Unmatch" />
+			</li>
+		</form>
 	{% endfor %}
 	</ul>
 </p>

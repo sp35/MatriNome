@@ -71,6 +71,28 @@ def reject_match_request(request, username):
 
 
 @login_required
+def delete_match(request, username):
+    try:
+        its_partner = get_object_or_404(User, username=username)
+    except:
+        messages.warning(request, 'Error')
+        return redirect('home')
+    if Partner.objects.filter(current_user=request.user, its_partner=its_partner).exists():
+        Partner.objects.filter(
+                    current_user = request.user,                               
+                    its_partner = its_partner,                                    
+                    ).delete()
+        # deleting the reverse relation
+        Partner.objects.filter(
+                    current_user = its_partner,  # reverse                             
+                    its_partner = request.user,                                    
+                    ).delete()
+        messages.warning(request, 'You both have been unmatched')
+
+    return redirect('home')
+
+
+@login_required
 def view_matches(request):
     partner_objects = Partner.objects.filter(current_user=request.user)
     partners = []
