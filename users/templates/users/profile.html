@@ -12,24 +12,37 @@
 	</div>
 		<br>
 	  	<div class="container">
-	  		<form method="POST" enctype="multipart/form-data">
+			{% if not editable %}
+				<legend class="border-bottom mb-4">Profile Info</legend>
+					<ul>
+						<li>Username: {{ this_user.username }}</li>
+						<li>Email: {{ this_user.email }}</li>
+						<li>Name: {{ this_user.profile.name }}</li>
+						<li>DOB: {{ this_user.profile.dob }}</li>
+						<li>Gender: {{ this_user.profile.get_gender_display }}</li>
+						<li>Bio: <p>{{ this_user.profile.bio }}</p></li>
+						<li>Interests: <ul>{% for interest in this_user.profile.interests.all %}<li>{{ interest }}</li>{% endfor %}</ul></li>
+						{% if show %}
+							<li>Mobile No: {{ this_user.profile.mobile_no }}</li>
+							<li>Address: <p>{{ this_user.profile.address }}</p></li>
+						{% endif %}
+						<li>State: {{ this_user.profile.get_state_display }}</li>
+						<li>City: {{ this_user.profile.city }}</li>
+					</ul>	
+			{% else %}
+				<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
-				{% if editable %}
 				 <fieldset class="form-group">
-				{% else %}
-				 <fieldset class="form-group" disabled="disabled">
-				{% endif %}
 					<legend class="border-bottom mb-4">Profile Info</legend>
-						{{ u_form|crispy }}
-						{{ p_form|crispy }}
-						{{ a_form|crispy }}
+							{{ u_form|crispy }}
+							{{ p_form|crispy }}
+							{{ a_form|crispy }}
 				</fieldset>
-				{% if editable %}
-					<div class="form-group">
-						<button class="btn btn-outline-info" type="submit">Update</button>
+				<div class="form-group">
+					<button class="btn btn-outline-info" type="submit">Update</button>
 					</div>
-				{% endif %}
-			</form>
+				</form>
+			{% endif %}
 	  	</div>
 	</div>
 {% endblock content %}

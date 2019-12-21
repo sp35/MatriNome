@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.core.validators import MinLengthValidator
+from . import data
 
 class InterestChoice(models.Model):
     interest = models.CharField(max_length=100, null=True) 
@@ -20,6 +22,14 @@ class Profile(models.Model):
         ('F', 'Female'),
     )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
+
+    STATE_CHOICES = data.STATE_CHOICES
+    state = models.IntegerField(choices=STATE_CHOICES, null=True)
+    city = models.CharField(max_length=30)
+    bio = models.TextField(max_length=150)
+    address = models.TextField(max_length=100)
+    mobile_no = models.CharField(max_length=10, validators=[MinLengthValidator(10)])
+   
     
     def __str__(self):
         return f"{self.user.username} Profile"

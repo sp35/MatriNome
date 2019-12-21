@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, AddInterestForm
 from django.contrib.auth.models import User
 from .models import Profile,InterestChoice
+from matching.models import Partner
 
 
 def register(request):
@@ -45,9 +46,16 @@ def profile(request, username):
 
     # Flag that determines if we should show editable elements in template
     editable = False
+    # Flag that determines if we should show otherwise abstracted details
+    show = False
     # Handling non authenticated user for obvious reasons
-    if request.user.is_authenticated and request.user == this_user:
-        editable = True
+    if request.user.is_authenticated:
+        if request.user == this_user:
+            editable = True
+        # for abstracting some details from non-matched users
+        else:
+            show = Partner.objects.filter(current_user=request.user,
+                                         its_partner=this_user).exists()
 
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=this_user)
@@ -79,7 +87,8 @@ def profile(request, username):
         'p_form': p_form,
         'a_form': a_form,
         'this_user': this_user,
-        'editable': editable
+        'editable': editable,
+        'show': show,
     }
 
     return render(request, 'users/profile.html', context)

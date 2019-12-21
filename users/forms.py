@@ -39,9 +39,9 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name','image','dob', 'gender','interests']
+        fields = ['name','mobile_no', 'image','dob', 'gender','address','state', 'city', 'bio', 'interests']
         widgets = {
-            'interests': forms.widgets.CheckboxSelectMultiple
+            'interests': forms.widgets.CheckboxSelectMultiple,
         }
 
 class AddInterestForm(forms.Form):
