@@ -11,8 +11,12 @@
 	</div>
 	<br>
 	{% for profile, matched_interests in context.items %}
+		<!-- Now displaying profiles with zero matched interests -->
 		{% if matched_interests|length %}
-			<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a> ------ {{ matched_interests|length}} common interests</h4>
+			<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a> ------> {{ matched_interests|length}} common interests</h4>
+		{% else %}
+			<h4>Profile of <a href="{% url 'profile' profile.user.username %}">{{ profile.name }}</a></h4>
+		{% endif %}
 			<br>
 			<div class="container">
 				<img src="{{ user.profile.image.url }}" alt="User Image" height="160" width="160">
@@ -32,15 +36,16 @@
 					{% endif %}
 					<br>
 					<br>
+				{% if matched_interests|length %}	
 					You and {{ profile.name }} are both interested in
 					<ul>
 						{% for interest in matched_interests %}
 							<li>{{ interest }}</li>
 						{% endfor %}
 					</ul>
+				{% endif %}
 				</p>
 				</div>
-			{% endif %}
 	{% empty %}
 		<h5>No profiles matched your interests/filters :(</h5>
 	{% endfor %}

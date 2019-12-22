@@ -1,4 +1,4 @@
-STATE_CHOICES = (
+STATE_CHOICES = [
 	(1,'Andra Pradesh'),
 	(2,'Arunachal Pradesh'),
 	(3,'Assam'),
@@ -28,4 +28,4 @@ STATE_CHOICES = (
 	(27,'Uttaranchal'),
 	(28,'Uttar Pradesh'),
 	(29,'West Bengal'),
-)
+]

@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from users.models import Profile
 from matching.models import Partner, RelationshipRequest
 from app.forms import FilterForm, SearchForm
+from datetime import date, timedelta
 
 @login_required
 def home(request):
@@ -11,7 +12,7 @@ def home(request):
     for partner_object in partner_objects:
         partners.append(partner_object.its_partner)
 
-    excluded_user_list = [request.user]
+    excluded_user_list = [request.user] + partners
     profiles = Profile.objects.exclude(user__in=excluded_user_list)
 
     if request.method == 'POST':
@@ -19,14 +20,17 @@ def home(request):
             form = FilterForm(request.POST)
             s_form = SearchForm()
             if form.is_valid():
-                gender_pref = form.cleaned_data['gender']
-                profiles = Profile.objects.filter(gender=gender_pref)
-                show_matched = form.cleaned_data['show_matched']
-                if show_matched == 'True':
-                   profiles = profiles.filter(user__in=partners) 
-                else:
-                    excluded_user_list += partners
-                    profiles = profiles.exclude(user__in=excluded_user_list)
+                age_pref = form.cleaned_data['age']
+                if not age_pref is None:
+                    profiles = profiles.filter(dob__lte=date.today() - timedelta(days=365*age_pref),
+                                                    dob__gte=date.today() - timedelta(days=(365*(age_pref+1) + 1)))
+                state_pref = form.cleaned_data['state']
+                if not state_pref is "":
+                    profiles = profiles.filter(state=state_pref)
+                interests_pref_list = [ interest for interest in form.cleaned_data['interests'] ]
+                if len(interests_pref_list): #checking for empty list
+                    # filtering here please
+                    pass
 
         elif 'btnformsearch' in request.POST:
             form = FilterForm()
@@ -47,7 +51,6 @@ def home(request):
         count = 0
         for interest in profile.interests.all():
             if interest in user_interests.all():
-
                 count += 1
                 matched_interests.append(interest)
         context[profile] = matched_interests
@@ -64,6 +67,7 @@ def home(request):
             sorted_context[k] = context[k]
         context = sorted_context   
 
+    
     return render(request, 'app/home.html', {'context': context, 'partners': partners, 'req_received': req_received, 'form': form, 's_form': s_form})
 
 
