@@ -99,14 +99,14 @@ def view_matches(request):
     for partner_object in partner_objects:
         partners.append(partner_object.its_partner)
 
-    return render(request, 'matching/partners_list.html', {'partners': partners})
+    return render(request, 'partners_list.html', {'partners': partners})
 
 
 @login_required
 def view_requests(request):
     requests = RelationshipRequest.objects.filter(to_user=request.user)
 
-    return render(request, 'matching/requests_list.html', {'requests': requests})
+    return render(request, 'requests_list.html', {'requests': requests})
 
 
 @login_required
@@ -115,4 +115,4 @@ def view_request_details(
     """ View a particular relationship request """
     r_request = get_object_or_404(RelationshipRequest, id=relationship_request_id)
 
-    return render(request, 'matching/request.html', {"relationship_request": r_request})
+    return render(request, 'request.html', {"relationship_request": r_request})

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.forms.widgets import PasswordInput, TextInput
 from .models import Profile
 
 
@@ -28,4 +29,9 @@ class ProfileUpdateForm(forms.ModelForm):
         }
 
 class AddInterestForm(forms.Form):
-    add_interest = forms.CharField(label = 'Other Interests',max_length = 100 ,required = False) 
+    add_interest = forms.CharField(label = 'Other Interests',max_length = 100 ,required = False)
+
+
+class CustomAuthForm(AuthenticationForm):
+    username = forms.CharField(widget=TextInput(attrs={'class':'input100', 'placeholder': 'Username'}))
+    password = forms.CharField(widget=PasswordInput(attrs={'class':'input100', 'placeholder':'Password'})) 

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, AddInterestForm
 from django.contrib.auth.models import User
 from .models import Profile,InterestChoice
-from matching.models import Partner
+from matching.models import Partner, RelationshipRequest
 
 
 def register(request):
@@ -34,7 +34,7 @@ def register(request):
         u_form = UserRegisterForm()
         p_form = ProfileUpdateForm()
         a_form = AddInterestForm()
-    return render(request, 'users/register.html', {'u_form': u_form, 'p_form': p_form, 'a_form':a_form})
+    return render(request, 'register.html', {'u_form': u_form, 'p_form': p_form, 'a_form':a_form})
 
 
 @login_required
@@ -48,6 +48,8 @@ def profile(request, username):
     editable = False
     # Flag that determines if we should show otherwise abstracted details
     show = False
+    req_received = False
+    req_sent = False
     # Handling non authenticated user for obvious reasons
     if request.user.is_authenticated:
         if request.user == this_user:
@@ -56,6 +58,10 @@ def profile(request, username):
         else:
             show = Partner.objects.filter(current_user=request.user,
                                          its_partner=this_user).exists()
+            req_received = RelationshipRequest.objects.filter(from_user=this_user,
+                                                         to_user=request.user).exists()
+            req_sent = RelationshipRequest.objects.filter(from_user=request.user,
+                                                         to_user=this_user).exists()
 
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=this_user)
@@ -89,6 +95,8 @@ def profile(request, username):
         'this_user': this_user,
         'editable': editable,
         'show': show,
+        'req_received': req_received,
+        'req_sent': req_sent,
     }
 
-    return render(request, 'users/profile.html', context)
+    return render(request, 'profile.html', context)

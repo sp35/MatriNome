@@ -1,0 +1,35 @@
+ {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'landing_template/style.css' %}" />
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Responsive meta tag (for mobile devices) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<title>MatriNome</title>
+</head>
+<body>
+	<div class="container-100">
+		<div class="jumbotron" id="jumbo">
+			<h1><em>Welcome to MatriNome</em></h1>
+			<br>
+			<ul id="ul_hor">
+				<li>
+					<h5>New here?</h5>
+					<a href="{% url 'register' %}" class='btn btn-primary btn-lg'>Register</a>
+				</li>
+				<br>
+				<br>
+				<li>
+					<h5>Already have an account?</h5>
+					<a href="{% url 'login' %}"  class='btn btn-primary btn-lg'>Login</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

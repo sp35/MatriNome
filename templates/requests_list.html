@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+{% block content %}
+<p>
+	<ul>
+	{% for matching_request in requests %}
+    	<li>{{ matching_request.from_user }} has sent you a match request &nbsp;  
+    	<button class="small"><a href="{% url 'view_request_details' matching_request.id %}">view request</a></button></li>
+	{% empty %}
+	</ul>
+</p>
+<div><h5>no requests received :(</h5></div>
+{% endfor %}
+{% endblock %}

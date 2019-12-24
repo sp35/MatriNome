@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-from users.models import Profile
+from users.models import Profile, InterestChoice
 from matching.models import Partner, RelationshipRequest
 from app.forms import FilterForm, SearchForm
 from datetime import date, timedelta
@@ -14,6 +14,12 @@ def home(request):
 
     excluded_user_list = [request.user] + partners
     profiles = Profile.objects.exclude(user__in=excluded_user_list)
+    
+    # showing profiles of opposite gender
+    if request.user.profile.gender is 'M':
+        profiles = profiles.filter(gender='F')
+    else:
+        profiles = profiles.filter(gender='M')
 
     if request.method == 'POST':
         if 'btnformfilter' in request.POST: 
@@ -29,8 +35,8 @@ def home(request):
                     profiles = profiles.filter(state=state_pref)
                 interests_pref_list = [ interest for interest in form.cleaned_data['interests'] ]
                 if len(interests_pref_list): #checking for empty list
-                    # filtering here please
-                    pass
+                    interest_query = InterestChoice.objects.filter(interest__in=interests_pref_list)
+                    profiles = profiles.filter(interests__in=interest_query)
 
         elif 'btnformsearch' in request.POST:
             form = FilterForm()
@@ -68,7 +74,7 @@ def home(request):
         context = sorted_context   
 
     
-    return render(request, 'app/home.html', {'context': context, 'partners': partners, 'req_received': req_received, 'form': form, 's_form': s_form})
+    return render(request, 'home.html', {'context': context, 'partners': partners, 'req_received': req_received, 'form': form, 's_form': s_form})
 
 
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
@@ -80,4 +86,4 @@ def get_item(dictionary, key):
 
 
 def index(request):
-    return render(request, 'app/index.html')
+    return render(request, 'landing.html')

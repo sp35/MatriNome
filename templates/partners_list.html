@@ -1,15 +1,16 @@
-{% extends "app/base.html" %}
+{% extends "main.html" %}
 {% block content %}
 <br>
-<h4>Your Matches</h4>
+<h4>My Matches</h4>
 <p>
 	<ul>
 	{% for partner in partners %}
 		<form method="post" action="{% url 'delete_match' partner.username %}">
 			{% csrf_token %}
 			<li>
-				<a href="{% url 'profile' partner.username %}">{{ partner.username }}</a>
-				<input class="btn btn-outline-danger btn-sm" type="submit" value="Unmatch" />
+				<a href="{% url 'profile' partner.username %}">{{ partner.profile.name }}  @{{ partner.username }}</a>
+				&nbsp;
+				<input class="small" type="submit" value="Unmatch" />
 			</li>
 		</form>
 	{% endfor %}

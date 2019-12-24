@@ -1,20 +1,37 @@
-{% extends "app/base.html" %}
+{% extends "main.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-	<br>
 	<div class="content-section">
-	  <div class="media">
-	    <img class="rounded-circle account-img" src="{{ this_user.profile.image.url }}" alt="Profile Photo" height="200" width="200">
-	    <div class="media-body">
-	      <h2 class="account-heading">{{ this_user.username }}</h2>
-	      <p class="text-secondary">{{ this_user.email }}</p>
+	  <figure>
+	    <img src="{{ this_user.profile.image.url }}" alt="Profile Photo" height="300" width="300">
+	    <figcaption><h2>@{{ this_user.username }}</h2></figcaption>
+	  </figure>
+	    <div>
+	      
 	    </div>
 	</div>
+	{% if not editable %}
+		<div>
+			{% if not show %}
+				{% if req_received %}
+					<button><a href="{% url 'accept_match_request' this_user.username %}">Accept Match Request</a></button>
+				{% elif req_sent %}
+					<font color="green"><strong><em>Match Request Sent</em></strong></font>
+				{% else %}
+					<button><a href="{% url 'send_match_request' this_user.username %}">Smash</a></button>
+				{% endif %}
+			{% else %}
+				<!-- <font color="red"><strong><em>Matched</em></strong></font>
+				&nbsp;&nbsp;&nbsp;&nbsp; -->
+				<button class="small"><a href="{% url 'delete_match' this_user.username %}">Unmatch</a></button>
+			{% endif %}
+		</div>
+	{% endif %}
 		<br>
 	  	<div class="container">
 			{% if not editable %}
-				<legend class="border-bottom mb-4">Profile Info</legend>
-					<ul>
+				<strong>Profile Info</strong>
+					<ul id="#profile">
 						<li>Username: {{ this_user.username }}</li>
 						<li>Email: {{ this_user.email }}</li>
 						<li>Name: {{ this_user.profile.name }}</li>
@@ -32,12 +49,16 @@
 			{% else %}
 				<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
-				 <fieldset class="form-group">
-					<legend class="border-bottom mb-4">Profile Info</legend>
+				<fieldset class="form-group">
+					<h3>Profile Info</h3>
 							{{ u_form|crispy }}
+						<br>
 							{{ p_form|crispy }}
+						<br>
 							{{ a_form|crispy }}
+						<br>	
 				</fieldset>
+				<br>
 				<div class="form-group">
 					<button class="btn btn-outline-info" type="submit">Update</button>
 					</div>

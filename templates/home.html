@@ -1,0 +1,44 @@
+{% extends "main.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<form class="form-inline my-2 my-lg-0" method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        {{ s_form|crispy }}
+        <button name='btnformsearch' class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+	<button class="collapsible">Filter +</button>
+	<div class="collapse_content">
+		<form action="{% url 'home' %}" method="post">
+		    {% csrf_token %}
+		    {{ form|crispy }}
+		    <button name='btnformfilter' class="btn btn-secondary btn-sm" type="submit">Apply</button>
+		</form>
+	</div>
+	<br>
+	<section class="tiles">
+		{% for profile, matched_interests in context.items %}
+			<article>
+				<span class="image">
+					<img src="{{ profile.image.url }}" alt="Image Error" height="300" width="100"/>
+				</span>
+				<a href="{% url 'profile' profile.user.username %}">
+					<h2>{{ profile.name }}</h2>
+					<div class="content">
+						<p>
+							{{ profile.dob }}<br>
+							{% if matched_interests|length %}	
+								You both like
+								{% for interest in matched_interests|slice:"5" %}
+									{{ interest }},
+								{% endfor %}
+							{% endif %}...
+						</p>
+					</div>
+				</a>
+			</article>
+		{% empty %}
+			<h5>No profiles found :(</h5>
+		{% endfor %}
+	</section>
+{% endblock content %}

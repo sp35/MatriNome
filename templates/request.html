@@ -1,7 +1,7 @@
-{% extends "app/base.html" %}
+{% extends "main.html" %}
 {% block content %}
 	<br>
-	<div><a href="{% url 'profile' relationship_request.from_user.username %}">{{ relationship_request.from_user.username }}</a> wants to be matched with {{ relationship_request.to_user }}
+	<div><a href="{% url 'profile' relationship_request.from_user.username %}">{{ relationship_request.from_user.username }}</a> wants to be matched with you
 	<br><br>
 	<img src="{{ relationship_request.from_user.profile.image.url }}" alt="Image" height="200" width="200">
 	</div>
@@ -10,14 +10,14 @@
 	<div class="form-group">
 		<form method="post" action="{% url 'accept_match_request' relationship_request.from_user.username %}">
 		{% csrf_token %}
-		<input class="btn btn-outline-success" type="submit" value="accept" />
+		<input class="small" type="submit" value="accept" />
 		</form>
 	</div>
 
 	<div class="form-group">
 		<form method="post" action="{% url 'reject_match_request' relationship_request.from_user.username %}">
 		{% csrf_token %}
-		<input class="btn btn-outline-danger" type="submit" value="reject" />
+		<input class="small" type="submit" value="reject" />
 		</form>
 	</div>
 {% endblock %}
