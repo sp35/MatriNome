@@ -1,9 +1,7 @@
 *.pyc
 *~
 __pycache__
-myenv
 db.sqlite3
-/static
 /media/profile_pics/*
 .DS_Store
 sendgrid.env
