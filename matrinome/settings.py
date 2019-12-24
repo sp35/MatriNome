@@ -123,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-deploy')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
@@ -136,6 +136,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 
 LOGIN_URL = 'login'
+<<<<<<< HEAD
 
 
 AUTH_USER_MODEL="users.CustomUser"
+=======
+>>>>>>> 4a3c8a1080038901f426ade032da844826bb15eb
