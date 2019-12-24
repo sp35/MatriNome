@@ -1,16 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
 
 
 class RelationshipRequest(models.Model):
     from_user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="user_sent",
     )
     to_user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="user_received",
     )
@@ -24,10 +24,10 @@ class RelationshipRequest(models.Model):
 
 
 class Partner(models.Model):
-    its_partner = models.ForeignKey(User, 
+    its_partner = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
         related_name="partner")
-    current_user = models.ForeignKey(User, 
+    current_user = models.ForeignKey(settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
         related_name="user")
     created = models.DateTimeField(default=timezone.now)

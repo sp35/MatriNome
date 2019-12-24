@@ -1,8 +1,14 @@
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from PIL import Image
 from django.core.validators import MinLengthValidator
 from . import data
+
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+
 
 class InterestChoice(models.Model):
     interest = models.CharField(max_length=100, null=True) 
@@ -10,8 +16,9 @@ class InterestChoice(models.Model):
     def __str__(self):
         return self.interest
 
+
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     dob = models.DateField(null=True)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
