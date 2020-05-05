@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, Http404, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from users.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, AddInterestForm
-from django.contrib.auth.models import User
 from .models import Profile,InterestChoice
 from matching.models import Partner, RelationshipRequest
 

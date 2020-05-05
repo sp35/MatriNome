@@ -6,7 +6,7 @@ from django.core.validators import MinLengthValidator
 from . import data
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     email = models.EmailField(unique=True)
 
 
