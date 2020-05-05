@@ -5,4 +5,5 @@ db.sqlite3
 /media/profile_pics/*
 .DS_Store
 sendgrid.env
-/static-deploy/
+venv/
+/.vscode/
