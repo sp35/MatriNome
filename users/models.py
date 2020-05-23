@@ -6,6 +6,9 @@ from django.core.validators import MinLengthValidator
 from . import data
 
 
+DEFAULT_IMG_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSiiFmWzdp-WVoPqwSCfraHDzZMh1AyRnkpxZYr9HynkkS6D39l&usqp=CAU"
+
+
 class User(AbstractUser):
     email = models.EmailField(unique=True)
 
@@ -21,7 +24,8 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     dob = models.DateField(null=True)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    # image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.URLField(default=DEFAULT_IMG_URL)
     interests = models.ManyToManyField(InterestChoice)
 
     GENDER_CHOICES = (
@@ -41,12 +45,12 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
 
-    def save(self, *args, **kwargs):
-        super().save()
+    # def save(self, *args, **kwargs):
+    #     super().save()
 
-        img = Image.open(self.image.path)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300,300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
