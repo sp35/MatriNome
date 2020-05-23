@@ -6,3 +6,5 @@ db.sqlite3
 .DS_Store
 sendgrid.env
 /static-deploy/
+venv/
+.vscode/

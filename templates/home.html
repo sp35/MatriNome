@@ -20,7 +20,7 @@
 		{% for profile, matched_interests in context.items %}
 			<article>
 				<span class="image">
-					<img src="{{ profile.image.url }}" alt="Image Error" height="300" width="100"/>
+					<img src="{{ profile.image }}" alt="Image Error" height="300" width="100"/>
 				</span>
 				<a href="{% url 'profile' profile.user.username %}">
 					<h2>{{ profile.name }}</h2>
